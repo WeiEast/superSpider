@@ -1,4 +1,5 @@
 import scrapy
+from bs4 import BeautifulSoup
 
 class SuperSpider (scrapy.Spider):
     name = "super"
@@ -93,9 +94,13 @@ class SuperSpider (scrapy.Spider):
 
     def parse_auction(self, response):
         print "parse_auction finished"
-        filenmae = 'test.html'
-        with open(filenmae, 'wb') as f:
-            f.write(response.body)
+        soup = BeautifulSoup(response.body, "lxml")
+        print "TiTLE"
+        print soup.title
+
+        #filenmae = 'test.html'
+        #with open(filenmae, 'wb') as f:
+        #    f.write(response.body)
         # print response.body
 
 
