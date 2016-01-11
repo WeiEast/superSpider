@@ -16,10 +16,12 @@ class SuperspiderItem(scrapy.Item):
     title = scrapy.Field()
     link = scrapy.Field()
     desc = scrapy.Field()
+
+    itemUrl = scrapy.Field()
+    itemName = scrapy.Field()
     itemLocNo = scrapy.Field()
     itemLocation = scrapy.Field()
-    itemName = scrapy.Field()
-    itemUrl = scrapy.Field()
+
 
 
 
