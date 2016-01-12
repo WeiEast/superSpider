@@ -9,7 +9,8 @@ import sys,time,urllib, urllib2, os, socket,random
 import chardet
 from lxml import etree
 import StringIO
-
+from scrapy.selector import Selector
+from scrapy.http import HtmlResponse
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -144,16 +145,28 @@ class SuperSpider (scrapy.Spider):
             encoding = chardet.detect(rawdata)
             html = rawdata.decode(encoding['encoding'])
 
+   # links = response.xpath('//a[contains(@href, "common/mulgun_detail_popup2")]/@href').extract()
+            print Selector(text=html).css('td[class="td1"]').extract()
+
 #http://www.dreamy.pe.kr/zbxe/CodeClip/163260
 #http://www.yangbeom.link/post/130613532096/python%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%ED%81%B4%EB%A6%AC%EC%95%99-%ED%8C%8C%EC%84%9C%EB%A7%8C%EB%93%A4%EA%B8%B0-beautifulsoup-%EC%82%AC%EC%9A%A9%ED%8E%B8
-            soup = BeautifulSoup(html,"lxml")
-            print "=======Beautiful soup Test======"
-            find_mytr = soup.find_all("tr", attrs={'class':"td_1"})
-            print soup
-            print soup.title
-            print find_mytr
-            for t in find_mytr:
-                print t.get_text(strip=True).encode('cp949','ignore').decode('cp949')
+
+#            print "=======Beautiful soup Test======"
+ #           soup = BeautifulSoup(html,"lxml")
+  #          find_mytr = soup.find_all("tr", attrs={'class':"td_1"})
+   #         print soup
+    #        print soup.title
+     #       print find_mytr
+      #      for t in find_mytr:
+       #         print t.get_text(strip=True).encode('cp949','ignore').decode('cp949')
+
+
+#            print "=======lxml etree xpath Test======"
+ #           #parser = etree.HTMLParser()
+  #          #tree   = etree.parse(StringIO.StringIO(html), parser)
+   #         tree = etree.HTML(html)
+    #        print tree
+     #       print tree.xpath('//*[@id="Table2"]/tbody/tr[7]/td[2]/table[2]/tbody/tr[2]/td[4]/text()[1]')
 
 
 
@@ -161,10 +174,7 @@ class SuperSpider (scrapy.Spider):
           #  with open(filenmae, 'wb') as f:
           #      f.write(soup.title.get_text())
 
-            #parser = etree.HTMLParser()
-            #tree   = etree.parse(StringIO.StringIO(html), parser)
-            #print tree
-            #print tree.xpath('//*[@id="Table2"]/tbody/tr[7]/td[2]/table[2]/tbody/tr[2]/td[4]/text()[1]')
+
 
 
 
