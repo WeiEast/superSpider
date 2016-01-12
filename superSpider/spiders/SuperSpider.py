@@ -3,7 +3,16 @@ from bs4 import BeautifulSoup
 from superSpider.items import SuperspiderItem
 from scrapy.http.cookies import CookieJar
 import re
-import urllib, urllib2, cookielib
+import ssl
+import cookielib
+import sys,time,urllib, urllib2, os, socket,random
+import chardet
+from lxml import etree
+import StringIO
+
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 #http://edoli.tistory.com/46 // urllib cookie example
 class SuperSpider (scrapy.Spider):
@@ -11,10 +20,18 @@ class SuperSpider (scrapy.Spider):
     allowed_domains = ["www.ggi.co.kr"]
     base_url = "https://www.ggi.co.kr"
     start_urls = ["https://www.ggi.co.kr/home1.asp"]
+
+    cookie = ""
+
+
     cj = cookielib.CookieJar()
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
     urllib2.install_opener(opener)
-    params = urllib.urlencode({'resid':'gusco7880', 'respass':'gusco7880'})
+    params = urllib.urlencode({'back_url':'/home1.asp',
+                               'back_string':'',
+                               'resid':'gusco7880',
+                               'respass':'gusco7880'})
+
 
 
     def parse(self, response): #call back function~
@@ -36,8 +53,23 @@ class SuperSpider (scrapy.Spider):
             print "Succeed!!!"
             print response.url
 
-            yield scrapy.FormRequest(url = "https://www.ggi.co.kr/search/sojae_search.asp",
-                                     formdata={
+
+            req = urllib2.Request("http://www.ggi.co.kr/login/ggi_login.asp", self.params)
+            res = self.opener.open(req)
+
+
+            self.cookie = res.headers.get('Set-Cookie')
+           # print self.cookie
+
+
+            req2 = urllib2.Request("http://www.ggi.co.kr/member/my_today.asp")
+            req2.add_header('cookie', self.cookie)
+            res2 = self.opener.open(req2)
+            print res2.headers.get('Set-Cookie') #Note!! even though it shows None -> it works.. I can't explain it however I guess visiting my_today.asp is keypoint to get cookies
+            #self.cookie = res2.headers.get('Set-Cookie')
+            #print self.cookie
+
+            formdata=urllib.urlencode({
                                             'groupresult':'',
                                             'resChgPage':'1',
                                             'nowpge':'',
@@ -49,7 +81,7 @@ class SuperSpider (scrapy.Spider):
                                             'save_seq':'',
                                             'resultchk':'N',
                                             'SDay':'2',
-                                            'resResultdate':'2016-01-11',
+                                            'resResultdate':'2016-01-12',
                                             'AreaSelect':'1',
                                             'resSiDo':'00',
                                             'resSiGuGun':'',
@@ -91,9 +123,56 @@ class SuperSpider (scrapy.Spider):
                                             'matchCount':'0',
                                             'mathchreset':'N',
                                             'reg_mgroup':''
-                                     },
-                                     method='GET',
-                                     callback=self.parse_auction)
+                                     })
+
+            req = urllib2.Request("http://www.ggi.co.kr/search/sojae_search.asp", formdata)
+            req.add_header('cookie',self.cookie)
+            res = self.opener.open(req)
+           # print res.headers.get('Set-Cookie')
+#            print self.cookie
+
+
+            req = urllib2.Request("http://www.ggi.co.kr/common/mulgun_detail_popup2.asp?idcode=A1423E403E3E3F3E3D483E3D3F43473F483E3C6&resStartDate=20160113&new=new")
+            res = self.opener.open(req)
+            print res.url
+            #print res.read()
+
+
+
+
+            rawdata = res.read()
+            encoding = chardet.detect(rawdata)
+            html = rawdata.decode(encoding['encoding'])
+
+#http://www.dreamy.pe.kr/zbxe/CodeClip/163260
+#http://www.yangbeom.link/post/130613532096/python%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%ED%81%B4%EB%A6%AC%EC%95%99-%ED%8C%8C%EC%84%9C%EB%A7%8C%EB%93%A4%EA%B8%B0-beautifulsoup-%EC%82%AC%EC%9A%A9%ED%8E%B8
+            soup = BeautifulSoup(html,"lxml")
+            print "=======Beautiful soup Test======"
+            find_mytr = soup.find_all("tr", attrs={'class':"td_1"})
+            print soup
+            print soup.title
+            print find_mytr
+            for t in find_mytr:
+                print t.get_text(strip=True).encode('cp949','ignore').decode('cp949')
+
+
+
+          #  filenmae = 'test.html'
+          #  with open(filenmae, 'wb') as f:
+          #      f.write(soup.title.get_text())
+
+            #parser = etree.HTMLParser()
+            #tree   = etree.parse(StringIO.StringIO(html), parser)
+            #print tree
+            #print tree.xpath('//*[@id="Table2"]/tbody/tr[7]/td[2]/table[2]/tbody/tr[2]/td[4]/text()[1]')
+
+
+
+       #     filenmae = 'test.html'
+       #     with open(filenmae, 'wb') as f:
+       #         f.write(html)
+
+
 
     # https://youtu.be/fKF58sfZI5s?t=32m33s   // item
     def parse_auction(self, response):
@@ -125,31 +204,8 @@ class SuperSpider (scrapy.Spider):
     def parse_page2(self, response):
         # this would log http://www.example.com/some_page.html
         print response.url
-        print response.body
+      #  print response.body
         filenmae = 'test.html'
         with open(filenmae, 'wb') as f:
             f.write(response.body)
 
-
-    # continue scraping with authenticated session...
-
-
-
-# class SuperSpider (scrapy.Spider):
-#     name = "super"
-#     allowed_domains = ["dmoz.org"]
-#     start_urls = [
-#         "http://www.dmoz.org/Computers/Programming/Languages/Python/Books/",
-#         "http://www.dmoz.org/Computers/Programming/Languages/Python/Resources/"
-#     ]
-#
-#     def parse(self, response): #call back function~
-#         # filename = response.url.split("/")[-2] + '.html'
-#         # with open(filename, 'wb') as f:
-#         #     f.write(response.body)
-#         return [FormRequest]
-#
-#
-#         # print response.url.split("/")[0]; #http:
-#         # print response.url.split("/")[-1]; #
-#         # print response.url.split("/")[-2]; #Books  Resources
