@@ -163,7 +163,7 @@ class SuperSpider (scrapy.Spider):
     #http://www.dreamy.pe.kr/zbxe/CodeClip/163260
     #http://www.yangbeom.link/post/130613532096/python%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%ED%81%B4%EB%A6%AC%EC%95%99-%ED%8C%8C%EC%84%9C%EB%A7%8C%EB%93%A4%EA%B8%B0-beautifulsoup-%EC%82%AC%EC%9A%A9%ED%8E%B8
 
-                print "=======Beautiful soup Parsing HTML"+str(linkIdx)+"/"+str(sizeOfLinks)+"======"
+                print "=======Beautiful soup Parsing HTML "+str(linkIdx)+"/"+str(sizeOfLinks)+"======"
                 soup = BeautifulSoup(html,"html5lib") #you have install it with "pip install html5lib"
                # find_mytr = soup.find_all("tr", attrs={'class':"td_1"})
               #  print soup
