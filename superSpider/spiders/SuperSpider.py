@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import scrapy
 from bs4 import BeautifulSoup
 from superSpider.items import SuperspiderItem
@@ -141,24 +142,43 @@ class SuperSpider (scrapy.Spider):
 
 
 
+           # rawdata = res.read().decode('utf-8','ignore')
+           # html = rawdata
+
             rawdata = res.read()
             encoding = chardet.detect(rawdata)
             html = rawdata.decode(encoding['encoding'])
 
    # links = response.xpath('//a[contains(@href, "common/mulgun_detail_popup2")]/@href').extract()
-            print Selector(text=html).css('td[class="td1"]').extract()
+          #  print Selector(text=html).css('td[class="td1"]').extract()
 
 #http://www.dreamy.pe.kr/zbxe/CodeClip/163260
 #http://www.yangbeom.link/post/130613532096/python%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%ED%81%B4%EB%A6%AC%EC%95%99-%ED%8C%8C%EC%84%9C%EB%A7%8C%EB%93%A4%EA%B8%B0-beautifulsoup-%EC%82%AC%EC%9A%A9%ED%8E%B8
 
-#            print "=======Beautiful soup Test======"
- #           soup = BeautifulSoup(html,"lxml")
-  #          find_mytr = soup.find_all("tr", attrs={'class':"td_1"})
-   #         print soup
-    #        print soup.title
-     #       print find_mytr
-      #      for t in find_mytr:
-       #         print t.get_text(strip=True).encode('cp949','ignore').decode('cp949')
+            print "=======Beautiful soup Test======"
+            soup = BeautifulSoup(html,"html5lib") #you have install it with "pip install html5lib"
+           # find_mytr = soup.find_all("tr", attrs={'class':"td_1"})
+          #  print soup
+            print soup.title.get_text().encode('cp949','ignore') # refer from https://kldp.org/node/81708
+           # print soup.find_all(id="Table1")
+            #print soup.find_all("td", class_="td_1")
+            #print soup.select("#Table1 > tbody")
+            #print soup.select("#Table1 > tbody > tr")
+            #print soup.select("#Table1 > tbody > tr + tr")
+            #print soup.select("#Table1 > tbody > tr + tr > td")
+            #print soup.select('td[class="td_1"]')  # I find it!!
+            tdList = soup.select('td[class="td_1"]')
+            for td in tdList:
+                print td.get_text(strip=True).encode('cp949','ignore')
+
+
+            #print soup.select("#Table1 > tbody > tr + tr > td.td_1")
+            #//*[@id="Table1"]/tbody/tr[1]/td[2]
+            ##Table1 > tbody > tr:nth-child(1) > td.td_1  ## error reason : http://stackoverflow.com/questions/24720442/selecting-second-child-in-beautiful-soup-with-soup-select
+
+            #print find_mytr
+            #for t in find_mytr:
+            #    print t.get_text(strip=True).encode('cp949','ignore').decode('cp949')
 
 
 #            print "=======lxml etree xpath Test======"
@@ -178,9 +198,9 @@ class SuperSpider (scrapy.Spider):
 
 
 
-       #     filenmae = 'test.html'
-       #     with open(filenmae, 'wb') as f:
-       #         f.write(html)
+         #   filenmae = 'test.html'
+         #   with open(filenmae, 'wb') as f:
+         #       f.write(html)
 
 
 
