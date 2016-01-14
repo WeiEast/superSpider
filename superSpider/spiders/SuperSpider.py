@@ -136,6 +136,19 @@ class SuperSpider (scrapy.Spider):
 
             searchResultHtml = res.read()
 
+            soup = BeautifulSoup(searchResultHtml,"html5lib")
+            parsingNumOfTotalPage = soup.select('#noprint > td.text_Align_center')[0].get_text(strip=True).split(' P')[0].split('(')[1]
+            print parsingNumOfTotalPage
+            NumOfTotalPage = int(re.search(r'\d+', parsingNumOfTotalPage).group())
+            print NumOfTotalPage
+
+
+            #write code about request loop for pages with cookies and request parameter
+            #change the way writing excel files
+            #make way to stop terminal!
+
+
+
             links = Selector(text=searchResultHtml).xpath('//a[contains(@href, "common/mulgun_detail_popup2")]/@href').extract()
             links = list(set(links)) #remove duplicated data
             sizeOfLinks = len(links)
