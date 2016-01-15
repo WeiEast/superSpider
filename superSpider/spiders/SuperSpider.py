@@ -13,7 +13,7 @@ from scrapy.selector import Selector
 from scrapy.http import HtmlResponse
 
 import xlsxwriter
-import time
+
 
 from scrapy.cmdline import execute
 
@@ -21,6 +21,8 @@ from PyQt4 import QtGui
 from PyQt4 import uic
 from PyQt4 import QtCore
 from PyQt4.QtCore import pyqtSlot
+import time
+from PyQt4.QtCore import QThread
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -306,7 +308,8 @@ class Form(QtGui.QDialog):
         worksheet.set_column('A:A', 20)
         worksheet.set_column('B:B', 20)
         worksheet.set_column('C:C', 60)
-        worksheet.set_column('D:D', 40)
+        worksheet.set_column('D:D', 20)
+        worksheet.set_column('E:E', 20)
 
         # Add a bold format to use to highlight cells.
         bold = workbook.add_format({'bold': True})
@@ -315,8 +318,9 @@ class Form(QtGui.QDialog):
         worksheet.write('A1', '사건번호')
         worksheet.write('B1', '성명')
         worksheet.write('C1', '주소')
-        worksheet.write('D1', '감정가 / 최저가')
-        worksheet.write('E1', '상태')
+        worksheet.write('D1', '감정가')
+        worksheet.write('E1', '최저가')
+        worksheet.write('F1', '상태')
 
         # Text with formatting.
         #worksheet.write('A2', 'World', bold)
@@ -440,7 +444,8 @@ class Form(QtGui.QDialog):
               #  print soup
                 #print soup.title.get_text().encode('cp949','ignore') # refer from https://kldp.org/node/81708
                 #itemLocNo = soup.title.get_text().encode('cp949','ignore').split()[0]
-                itemLocNo = soup.title.get_text().split()[0]
+                itemLocNoSplited = soup.title.get_text().split()
+                itemLocNo = itemLocNoSplited[0]+" "+itemLocNoSplited[1]
                 #print soup.title.get_text().encode('cp949','ignore')
                 print soup.title.get_text()
                # print soup.find_all(id="Table1")
@@ -459,11 +464,11 @@ class Form(QtGui.QDialog):
                 itemName = tdList[4].get_text(strip=True)
                 itemExpectedPrice = tdList[6].get_text(strip=True)
                 itemMinPrice = tdList[9].get_text(strip=True)
-                itemPrice = itemExpectedPrice+" / "+itemMinPrice
+                #itemPrice = itemExpectedPrice+" / "+itemMinPrice
                 #print itemName
                 #print itemLocNo
                 #print itemLocation
-                items = [itemName, itemLocNo, itemLocation, itemPrice]
+                items = [itemLocNo, itemName, itemLocation, itemExpectedPrice, itemMinPrice]
 
                 itemsList.append(items)
 
@@ -506,3 +511,15 @@ if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     w = Form()
     sys.exit(app.exec_())
+
+class superSpiderThread(QThread):
+
+    def __init__(self):
+        QThread.__init__(self)
+
+    def __del__(self):
+        self.wait()
+
+    def run(self):
+        print ""
+        #your logic here
