@@ -184,6 +184,12 @@
      <height>101</height>
     </rect>
    </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+   <property name="plainText">
+    <string/>
+   </property>
   </widget>
   <widget class="QComboBox" name="resYongNm">
    <property name="geometry">
@@ -599,6 +605,38 @@
    </property>
    <property name="text">
     <string>검색종료</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="numOfTotal">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>180</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>총 페이지수</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="numOfTotalItems">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>200</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>총 건수</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>
