@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>598</width>
+    <height>354</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Crawler</string>
+  </property>
+  <widget class="QRadioButton" name="SDay2">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>30</y>
+     <width>131</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>오늘이후 전체물건</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatInterval">
+    <number>101</number>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="SDay1">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>60</y>
+     <width>90</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>날짜 선택</string>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="resResultdate">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>60</y>
+     <width>110</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="dateTime">
+    <datetime>
+     <hour>0</hour>
+     <minute>0</minute>
+     <second>0</second>
+     <year>2016</year>
+     <month>1</month>
+     <day>14</day>
+    </datetime>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="resResultdate2">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>60</y>
+     <width>110</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="dateTime">
+    <datetime>
+     <hour>0</hour>
+     <minute>0</minute>
+     <second>0</second>
+     <year>2016</year>
+     <month>1</month>
+     <day>28</day>
+    </datetime>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>30</y>
+     <width>56</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>입찰기일</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>110</y>
+     <width>56</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>금액관련</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>110</y>
+     <width>56</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>감정가</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>170</y>
+     <width>56</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>용도지역</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>60</y>
+     <width>21</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>~</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>110</y>
+     <width>21</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>~</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="logOfProgress">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>220</y>
+     <width>561</width>
+     <height>101</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="resYongNm">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>160</y>
+     <width>261</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>선택하세요</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>도시지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>주거지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>제1종 전용주거지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>제2종 전용주거지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>제1종 일반주거지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>제2종 일반주거지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>제3종 일반주거지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>준 주거지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>상업지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>중심상업지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>일반상업지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>근린상업지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>유통상업지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>공업지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>전용공업지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>일반공업지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>준 공업지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>녹지지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>보전녹지지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>생산녹지지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>자연녹지지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>관리지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>보전관리지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>생산관리지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>계획관리지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>농림지역</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>자연환경보전지역</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="resTotGamAmt1">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>110</y>
+     <width>111</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string extracomment="test~~">최소</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>0원</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1천만</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3천만</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>5천만</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>7천만</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1억5천</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2억5천</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>4억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>5억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>6억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>7억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>8억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>9억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>10억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>15억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>20억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>30억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>50억</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="resTotGamAmt2">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>110</y>
+     <width>111</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>최대</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>0원</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1천만</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3천만</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>5천만</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>7천만</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1억5천</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2억5천</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>4억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>5억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>6억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>7억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>8억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>9억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>10억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>15억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>20억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>30억</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>50억 이상</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="startButton">
+   <property name="geometry">
+    <rect>
+     <x>500</x>
+     <y>20</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>검색시작</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="endButton">
+   <property name="geometry">
+    <rect>
+     <x>500</x>
+     <y>50</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>검색종료</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>startButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>start_crawl()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>543</x>
+     <y>30</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>547</x>
+     <y>167</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>endButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>stop_crawl()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>525</x>
+     <y>61</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>520</x>
+     <y>131</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>start_crawl()</slot>
+  <slot>stop_crawl()</slot>
+ </slots>
+</ui>
