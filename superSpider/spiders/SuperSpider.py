@@ -304,13 +304,19 @@ class Form(QtGui.QDialog):
 
         # Widen the first column to make the text clearer.
         worksheet.set_column('A:A', 20)
-        worksheet.set_column('C:C', 40)
+        worksheet.set_column('B:B', 20)
+        worksheet.set_column('C:C', 60)
+        worksheet.set_column('D:D', 40)
 
         # Add a bold format to use to highlight cells.
         bold = workbook.add_format({'bold': True})
 
         # Write some simple text.
-        worksheet.write('A1', 'Hello')
+        worksheet.write('A1', '사건번호')
+        worksheet.write('B1', '성명')
+        worksheet.write('C1', '주소')
+        worksheet.write('D1', '감정가 / 최저가')
+        worksheet.write('E1', '상태')
 
         # Text with formatting.
         #worksheet.write('A2', 'World', bold)
@@ -468,7 +474,7 @@ class Form(QtGui.QDialog):
 
             for rowidx, items in enumerate(itemsList):
                 for colindx, item in enumerate(items):
-                    worksheet.write(rowidx, colindx, item)
+                    worksheet.write(rowidx+1, colindx, item)
 
             if(self.crawl_flag):
                 workbook.close() #page End if button will be clicked , I have to make it
