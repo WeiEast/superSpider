@@ -75,15 +75,27 @@ class Form(QtGui.QDialog):
         #print self.ui.resResultdate.date().day()
 
         self.superSpiderThread = self.SuperSpiderThread(self)
-        self.connect(self.superSpiderThread, QtCore.SIGNAL("finished()"), self.done)
+        self.connect(self.superSpiderThread, QtCore.SIGNAL("finishedWork"), self.done)
+        self.connect(self.superSpiderThread, QtCore.SIGNAL("loggingWork"), self.traceLog)
         #This is about Signal and it is point https://nikolak.com/pyqt-threading-tutorial/
 
         self.ui.show()
 
-    def done(self):
+    def closeEvent(self, event):
+            print "User has clicked the red x on the main window"
+            event.accept()
 
-        self.ui.logOfProgress.setPlainText("End, Complete\n") #QObject: Cannot create children for a parent that is in a different thread.
+    def done(self, sigstr):
+        print "SigStr~~"
+        print sigstr
+        self.ui.logOfProgress.setPlainText("End, Complete\n"+self.ui.logOfProgress.toPlainText()) #QObject: Cannot create children for a parent that is in a different thread.
         print "Done!" #TypeError: done() takes exactly 1 argument (2 given)
+
+    def traceLog(self, sigLogStr):
+        print "SigLogStr~~"
+        print sigLogStr
+        self.ui.logOfProgress.setPlainText(sigLogStr+"\n"+self.ui.logOfProgress.toPlainText()) #QObject: Cannot create children for a parent that is in a different thread.
+        print "Logging!" #TypeError: done() takes exactly 1 argument (2 given)
 
     @pyqtSlot()
     def start_crawl(self):
@@ -346,8 +358,8 @@ class Form(QtGui.QDialog):
 
             # Widen the first column to make the text clearer.
             worksheet.set_column('A:A', 20)
-            worksheet.set_column('B:B', 20)
-            worksheet.set_column('C:C', 60)
+            worksheet.set_column('B:B', 15)
+            worksheet.set_column('C:C', 40)
             worksheet.set_column('D:D', 20)
             worksheet.set_column('E:E', 20)
 
@@ -366,6 +378,8 @@ class Form(QtGui.QDialog):
             #worksheet.write('A2', 'World', bold)
 
             #res 2 is after 14 days check
+
+            indexOfItems = 0
             for pageNo in range(1,NumOfTotalPage+1):
                 formdata = urllib.urlencode({
                                                 "search_save":"",
@@ -472,13 +486,15 @@ class Form(QtGui.QDialog):
                     encoding = chardet.detect(rawdata)
                     html = rawdata.decode(encoding['encoding'])
 
+                    indexOfItems = indexOfItems+1
+
            # links = response.xpath('//a[contains(@href, "common/mulgun_detail_popup2")]/@href').extract()
                   #  print Selector(text=html).css('td[class="td1"]').extract()
 
         #http://www.dreamy.pe.kr/zbxe/CodeClip/163260
         #http://www.yangbeom.link/post/130613532096/python%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%ED%81%B4%EB%A6%AC%EC%95%99-%ED%8C%8C%EC%84%9C%EB%A7%8C%EB%93%A4%EA%B8%B0-beautifulsoup-%EC%82%AC%EC%9A%A9%ED%8E%B8
-
-                    print "=======Beautiful soup Parsing HTML "+str(linkIdx+1)+"/"+str(sizeOfLinks)+"======"
+                    self.emit(QtCore.SIGNAL('loggingWork'), "=======Downloading and Parsing HTML files "+str(indexOfItems)+"/"+str(NumOfTotalItems)+"======")
+                    print "=======Beautiful soup Parsing HTML "+str(indexOfItems)+"/"+str(NumOfTotalItems)+"======"
                    # logOfProgress.setPlainText("=======Beautiful soup Parsing HTML "+str(linkIdx+1)+"/"+str(sizeOfLinks)+"======\n")
 
                     soup = BeautifulSoup(html,"html5lib") #you have install it with "pip install html5lib"
@@ -502,7 +518,8 @@ class Form(QtGui.QDialog):
                 #        print td.get_text(strip=True).encode('cp949','ignore')
                     #itemLocation = tdList[0].get_text(strip=True).encode('cp949','ignore')
                     #itemName = tdList[4].get_text(strip=True).encode('cp949','ignore')
-                    itemLocation = tdList[0].get_text(strip=True)
+                    itemLocation = tdList[0].get_text(strip=True).split('[')[0]
+                    itemLocation = itemLocation.split('(')[0] #without name of road
                     itemName = tdList[4].get_text(strip=True)
                     itemExpectedPrice = tdList[6].get_text(strip=True)
                     itemMinPrice = tdList[9].get_text(strip=True)
@@ -525,7 +542,6 @@ class Form(QtGui.QDialog):
 
                 if(self.super.crawl_flag):
                     print "break outer loop"
-                    self.super.ui.logOfProgress.setPlainText("Stop Downloading!\n")
                     break
 
 
@@ -539,7 +555,7 @@ class Form(QtGui.QDialog):
 
             print "End of Loop"
             workbook.close() #page Final End
-            #self.emit(QtCore.SIGNAL('finished()'))
+            self.emit(QtCore.SIGNAL('finishedWork'), "hi program finished from thread")
 
             #workbook 닫는 타이밍
             #사건번호 정규식 및 엔터
