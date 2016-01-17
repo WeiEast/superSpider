@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from bs4 import BeautifulSoup
-from superSpider.items import SuperspiderItem
+#from superSpider.items import SuperspiderItem
 from scrapy.http.cookies import CookieJar
 import re
 import ssl
@@ -380,6 +380,7 @@ class Form(QtGui.QDialog):
             #res 2 is after 14 days check
 
             indexOfItems = 0
+            rowidx = 0
             for pageNo in range(1,NumOfTotalPage+1):
                 formdata = urllib.urlencode({
                                                 "search_save":"",
@@ -464,6 +465,20 @@ class Form(QtGui.QDialog):
 
                 #change the way writing excel files
                 #make way to stop terminal!
+                req = urllib2.Request("http://www.ggi.co.kr/search/sojae_search.asp", formdata)
+                req.add_header('cookie',cookie)
+                res = opener.open(req)
+               # print res.headers.get('Set-Cookie')
+        #            print self.cookie
+
+                searchResultHtml = res.read()
+#
+                filenmae = 'test.html'
+                with open(filenmae, 'wb') as f:
+                    f.write(searchResultHtml)
+
+
+#
 
                 links = Selector(text=searchResultHtml).xpath('//a[contains(@href, "common/mulgun_detail_popup2")]/@href').extract()
                 links = list(set(links)) #remove duplicated data
@@ -476,7 +491,7 @@ class Form(QtGui.QDialog):
 
 
                 itemsList = []
-                rowidx = 0
+
                 for linkIdx, link in enumerate(links):
                     req = urllib2.Request(link)
                     res = opener.open(req)
